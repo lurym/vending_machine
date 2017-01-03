@@ -10,25 +10,16 @@ func returnError(w http.ResponseWriter, code int) {
 	http.Error(w, http.StatusText(code), code)
 }
 
-func snacksGET(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("snacks GET")
-	json.NewEncoder(w).Encode(snacksTable)
-}
-
 func snacks(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("/snacks called")
 	if r.Method != http.MethodGet {
 		returnError(w, http.StatusMethodNotAllowed)
 		return
 	}
-	snacksGET(w, r)
+	fmt.Println("snacks GET")
+	json.NewEncoder(w).Encode(snacksTable)
 }
 
-
-func coinSlotsPOST(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("coin slots POST")
-	
-}
 
 func coinSlots(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("/coin_slots called")
@@ -36,7 +27,10 @@ func coinSlots(w http.ResponseWriter, r *http.Request) {
 		returnError(w, http.StatusMethodNotAllowed)
 		return
 	}
-	coinSlotsPOST(w, r)
+	fmt.Println("coin slots POST")
+	slot := CreateNewCoinSlot()
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(slot)
 }
 
 func main() {
