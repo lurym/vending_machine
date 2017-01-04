@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 set -e
 
 echo "GET list of snacks:"
@@ -10,11 +10,10 @@ curl -X POST http://localhost:8080/coin_slots
 
 echo "Update coin slot"
 curl -X PUT http://localhost:8080/coin_slots/awesome_wright --data '{"Coin": 5}'
-#no need to know secret ID. Everyone should be able to put coin
+#no need to know secret ID. Everyone should be able to put coin in a slot. I try to treat coin slot name as account name
 
 echo "GET information about slot"
 curl -X GET http://localhost:8080/coin_slots/awesome_wright
 
-
-#curl -X POST http://localhost:8080/snacks/43 -body "{"wallet": 123456, "secret": "asdf"}"
-#gets single snack
+echo "Buy single snack"
+curl -X POST http://localhost:8080/snacks/10 --data '{"Name": "awesome_wright", "Secret": "secret_password"}'
