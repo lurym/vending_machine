@@ -3,7 +3,7 @@ package main
 type CoinSlot struct {
     Name string
     Secret string
-    Balance int64
+    Balance uint64
 }
 
 type Snack struct {
@@ -12,15 +12,33 @@ type Snack struct {
     Price   uint64 //in cents
 }
 
+type Coin struct {
+    Coin uint64
+}
+
 var snacksTable = []Snack{
     {10, "Snickers", 220},
     {11, "Mars", 210},
 }
 
-var coinSlotTable = []CoinSlot{}
+var coinSlotMap = make(map[string]CoinSlot)
+
+func GetSnacksTable() []Snack {
+    return snacksTable
+}
 
 func CreateNewCoinSlot() CoinSlot {
 	slot := CoinSlot{GetRandomName(), GetRandomSecret(), 0}
-	coinSlotTable = append(coinSlotTable, slot) //FIXME this is not thread safe
+    coinSlotMap[slot.Name] = slot
     return slot
+}
+
+func UpdateCoinSlotBalance(cs CoinSlot, amount uint64) {
+    cs.Balance += amount
+    coinSlotMap[cs.Name] = cs
+}
+
+func GetCoinSlot(slotID string) (CoinSlot, bool) {
+    slot, keyExists := coinSlotMap[slotID]
+    return slot, keyExists
 }
