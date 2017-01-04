@@ -4,7 +4,7 @@ In order to run service execute
 go run *.go
 ```
 
-In order to example API usage run
+To see how to use API execute usage script
 ```
 ./usage.sh
 ```
